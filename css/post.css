@@ -1,0 +1,40 @@
+.post {
+  max-width: 500px;
+}
+
+.post-footer {
+  display: flex;
+  align-items: center;
+  font-family: helvetica;
+  color: #999;
+  font-size: 12px;
+}
+
+.post-footer span {
+  margin-bottom: 13px;
+  font-size: 25px;
+}
+
+.post-footer i {
+  margin: 3px;
+}
+
+.image-wrap {
+  width: 500px;
+  height: 350px;
+  background: black;
+  text-align: center;
+}
+
+img {
+  height: 100%;
+}
+
+
+h1 {
+  height: 75px;
+  font-family: arvo sans-serif;
+  font-size: 18px;
+  line-height: 24px;
+  color: #000;
+}

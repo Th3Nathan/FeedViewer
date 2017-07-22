@@ -1,13 +1,17 @@
 
 import React from 'react';
 import Header from './header';
+import List from './list'
 import { HashRouter, Route } from 'react-router-dom';
 
 class App extends React.Component {
   render(){
     return (
       <HashRouter>
-        <Route path="/" component={Header} />
+        <div>
+          <Route path="/" component={Header} />
+          <Route path="/" component={List} />
+        </div>
       </HashRouter>
     );
   }

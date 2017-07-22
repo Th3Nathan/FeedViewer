@@ -1,4 +1,9 @@
 /*font-family: 'Arvo', serif;*/
+body, h1, h2, h3, h4, h5 {
+  margin: 0px;
+  padding: 0px;
+}
+
 body {
   padding: 0px;
   margin: 0px;
