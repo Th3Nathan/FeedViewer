@@ -3,11 +3,24 @@ header {
   display: flex;
 }
 
-header > a {
+header > a, header > form {
   display: flex;
   padding: 10px;
   color: #57a2e4;
   text-decoration: none;
+}
+
+form label i {
+  color: black;
+  padding-right:5px;
+}
+
+input {
+  font-size: 16px;
+}
+
+input:focus {
+  outline: 2px solid #57a2e4;
 }
 
 .header-text {

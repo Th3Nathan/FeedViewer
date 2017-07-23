@@ -8,7 +8,7 @@ class Post extends React.Component {
   }
 
   imageStyle(){
-    //Snap to the constant container size only if it almost fills it already
+    //Fill container only if it almost fills it already
     const image = this.props.post.preview.images[0].source;
     let ratio = image.height / image.width;
     if (ratio > 5/10 && ratio < 9.5/10)
@@ -22,7 +22,14 @@ class Post extends React.Component {
     };
   }
 
+  badImage(){
+    const { post } = this.props;
+    const image = post.preview.images[0].source;
+    return !post.preview || image.url.includes(".gif");
+  }
+
   render(){
+      if (this.badImage()) return null;
       const { post } = this.props;
       const image = post.preview.images[0].source;
 
@@ -37,7 +44,7 @@ class Post extends React.Component {
             <h5>{`/u/${post.author}`}</h5>
             <span>.</span>&nbsp;
             <i className="fa fa-clock-o" aria-hidden="true"></i>
-            <h5>{timeAgo(post.created)}</h5>
+            <h5>{timeAgo(post.created_utc)}</h5>
             <span>.</span>&nbsp;
             <i className="fa fa-bolt" aria-hidden="true"></i>&nbsp;
             <h5>{post.num_comments}</h5>

@@ -2,15 +2,17 @@
 import React from 'react';
 import Header from './header';
 import List from './list'
-import { HashRouter, Route } from 'react-router-dom';
+import { HashRouter, Route, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
   render(){
+
     return (
       <HashRouter>
         <div>
-          <Route path="/" component={Header} />
-          <Route path="/" component={List} />
+          <Route exact path="/" render={() => <Redirect to="/analog" />} />
+          <Route path="/:channel" component={Header} />
+          <Route path="/:channel" component={List} />
         </div>
       </HashRouter>
     );

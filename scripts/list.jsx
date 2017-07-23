@@ -7,16 +7,29 @@ import Post from './post';
 class List extends React.Component {
   constructor(props){
     super(props);
-    this.state = { json: {} };
+    this.state = {
+      json: {},
+      favorites: {}
+     };
   }
 
   componentDidMount(){
-      fetch('https://www.reddit.com/r/aww/top/.json')
-        .then(response => response.json())
-          .then(json => {
-        this.setState({ json });
-      });
+    fetch(`https://www.reddit.com/r/${this.props.match.params.channel}/top/.json`)
+      .then(response => response.json())
+        .then(json => {
+      this.setState({ json });
+    });
   }
+
+  componentWillReceiveProps(newProps){
+    if (this.props.match.params.channel === newProps.match.params.channel) return null;
+    fetch(`https://www.reddit.com/r/${newProps.match.params.channel}/top/.json`)
+      .then(response => response.json())
+        .then(json => {
+      this.setState({ json });
+    });
+  }
+
 
   posts(){
     const jsonPosts = this.state.json.data.children
