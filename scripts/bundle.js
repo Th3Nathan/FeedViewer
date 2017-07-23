@@ -26076,6 +26076,10 @@ var _reactRouterDom = __webpack_require__(37);
 
 var _util = __webpack_require__(96);
 
+var _postFooter = __webpack_require__(229);
+
+var _postFooter2 = _interopRequireDefault(_postFooter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -26090,7 +26094,16 @@ var Post = function (_React$Component) {
   function Post(props) {
     _classCallCheck(this, Post);
 
-    return _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Post.__proto__ || Object.getPrototypeOf(Post)).call(this, props));
+
+    _this.state = {
+      hover: false,
+      favorited: false
+    };
+    _this.onMouseOut = _this.onMouseOut.bind(_this);
+    _this.onMouseOver = _this.onMouseOver.bind(_this);
+    _this.heartClick = _this.heartClick.bind(_this);
+    return _this;
   }
 
   _createClass(Post, [{
@@ -26108,12 +26121,42 @@ var Post = function (_React$Component) {
       };
     }
   }, {
+    key: 'heartStyle',
+    value: function heartStyle() {
+      if (this.state.favorited) {
+        return {
+          "transform": "translate(450px, 20px)",
+          "color": "red"
+        };
+      } else if (this.state.hover) {
+        return {
+          "transform": "translate(20px, 20px)"
+        };
+      } else return {
+        "transform": "translate(-20px, -20px)"
+      };
+    }
+  }, {
+    key: 'heartClick',
+    value: function heartClick(e) {
+      this.setState({ favorited: !this.state.favorited });
+    }
+  }, {
     key: 'badImage',
     value: function badImage() {
       var post = this.props.post;
 
-      var image = post.preview.images[0].source;
-      return !post.preview || image.url.includes(".gif");
+      return !post.preview || post.preview.images[0].source.url.includes(".gif");
+    }
+  }, {
+    key: 'onMouseOver',
+    value: function onMouseOver(e) {
+      this.setState({ hover: true });
+    }
+  }, {
+    key: 'onMouseOut',
+    value: function onMouseOut(e) {
+      this.setState({ hover: false });
     }
   }, {
     key: 'render',
@@ -26125,7 +26168,8 @@ var Post = function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: 'post' },
+        { className: 'post', onMouseOver: this.onMouseOver, onMouseOut: this.onMouseOut },
+        _react2.default.createElement('i', { style: this.heartStyle(), onClick: this.heartClick, className: 'fa fa-heart heart', 'aria-hidden': 'true' }),
         _react2.default.createElement(
           'div',
           { className: 'image-wrap' },
@@ -26136,42 +26180,7 @@ var Post = function (_React$Component) {
           null,
           post.title
         ),
-        _react2.default.createElement(
-          'div',
-          { className: 'post-footer' },
-          _react2.default.createElement('i', { className: 'fa fa-user', 'aria-hidden': 'true' }),
-          '\xA0',
-          _react2.default.createElement(
-            'h5',
-            null,
-            '/u/' + post.author
-          ),
-          _react2.default.createElement(
-            'span',
-            null,
-            '.'
-          ),
-          '\xA0',
-          _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
-          _react2.default.createElement(
-            'h5',
-            null,
-            (0, _util.timeAgo)(post.created_utc)
-          ),
-          _react2.default.createElement(
-            'span',
-            null,
-            '.'
-          ),
-          '\xA0',
-          _react2.default.createElement('i', { className: 'fa fa-bolt', 'aria-hidden': 'true' }),
-          '\xA0',
-          _react2.default.createElement(
-            'h5',
-            null,
-            post.num_comments
-          )
-        )
+        _react2.default.createElement(_postFooter2.default, { post: post, hover: this.state.hover })
       );
     }
   }]);
@@ -26180,6 +26189,72 @@ var Post = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Post;
+
+/***/ }),
+/* 229 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _util = __webpack_require__(96);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PostFooter = function PostFooter(_ref) {
+  var post = _ref.post,
+      hover = _ref.hover;
+
+  var textStyle = {
+    "color": hover ? "#999" : "#777"
+  };
+  return _react2.default.createElement(
+    'div',
+    { className: 'post-footer' },
+    _react2.default.createElement('i', { className: 'fa fa-user', 'aria-hidden': 'true' }),
+    '\xA0',
+    _react2.default.createElement(
+      'h5',
+      { style: textStyle },
+      '/u/' + post.author
+    ),
+    _react2.default.createElement(
+      'span',
+      null,
+      '.'
+    ),
+    '\xA0',
+    _react2.default.createElement('i', { className: 'fa fa-clock-o', 'aria-hidden': 'true' }),
+    _react2.default.createElement(
+      'h5',
+      { style: textStyle },
+      (0, _util.timeAgo)(post.created_utc)
+    ),
+    _react2.default.createElement(
+      'span',
+      null,
+      '.'
+    ),
+    '\xA0',
+    _react2.default.createElement('i', { className: 'fa fa-bolt', 'aria-hidden': 'true' }),
+    '\xA0',
+    _react2.default.createElement(
+      'h5',
+      { style: textStyle },
+      post.num_comments
+    )
+  );
+};
+
+exports.default = PostFooter;
 
 /***/ })
 /******/ ]);

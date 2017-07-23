@@ -2,9 +2,18 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { timeAgo } from './util';
+import PostFooter from './postFooter.jsx';
+
 class Post extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      hover: false,
+      favorited: false
+    }
+    this.onMouseOut = this.onMouseOut.bind(this);
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.heartClick = this.heartClick.bind(this);
   }
 
   imageStyle(){
@@ -22,10 +31,37 @@ class Post extends React.Component {
     };
   }
 
+  heartStyle(){
+    if (this.state.favorited){
+      return {
+        "transform": "translate(450px, 20px)",
+        "color": "red"
+      }
+    }
+    else if (this.state.hover){
+      return {
+        "transform": "translate(20px, 20px)"
+      };
+    } else return {
+      "transform": "translate(-20px, -20px)"
+    }
+  }
+
+  heartClick(e){
+    this.setState({favorited: !this.state.favorited})
+  }
+
   badImage(){
     const { post } = this.props;
-    const image = post.preview.images[0].source;
-    return !post.preview || image.url.includes(".gif");
+    return !post.preview || post.preview.images[0].source.url.includes(".gif");
+  }
+
+  onMouseOver(e){
+    this.setState({ hover: true })
+  }
+
+  onMouseOut(e){
+    this.setState({ hover: false })
   }
 
   render(){
@@ -34,21 +70,13 @@ class Post extends React.Component {
       const image = post.preview.images[0].source;
 
       return (
-        <div className="post">
+        <div className="post" onMouseOver={ this.onMouseOver } onMouseOut={ this.onMouseOut } >
+          <i style={ this.heartStyle() } onClick={ this.heartClick } className="fa fa-heart heart" aria-hidden="true"></i>
           <div className="image-wrap">
             <img src={ image.url } style={this.imageStyle()} />
           </div>
           <h1>{ post.title }</h1>
-          <div className="post-footer">
-            <i className="fa fa-user" aria-hidden="true"></i>&nbsp;
-            <h5>{`/u/${post.author}`}</h5>
-            <span>.</span>&nbsp;
-            <i className="fa fa-clock-o" aria-hidden="true"></i>
-            <h5>{timeAgo(post.created_utc)}</h5>
-            <span>.</span>&nbsp;
-            <i className="fa fa-bolt" aria-hidden="true"></i>&nbsp;
-            <h5>{post.num_comments}</h5>
-          </div>
+          <PostFooter post={ post } hover={ this.state.hover } />
         </div>
       );
     }
