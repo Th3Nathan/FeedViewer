@@ -11460,7 +11460,7 @@ var List = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       var channel = this.props.match.params.channel;
-      var channelFavorited = window.localStorage.getItem(channel) === "undefined" ? {} : JSON.parse(window.localStorage.getItem(channel));
+      var channelFavorited = window.sessionStorage.getItem(channel) === "undefined" ? {} : JSON.parse(window.sessionStorage.getItem(channel));
       this.setState({
         favorites: _defineProperty({}, channel, channelFavorited)
       });
@@ -11490,7 +11490,7 @@ var List = function (_React$Component) {
         _this3.setState(_defineProperty({
           json: json,
           favorites: _defineProperty({}, oldChannel, null)
-        }, 'favorites', _defineProperty({}, newChannel, JSON.parse(window.localStorage.getItem(newChannel)))));
+        }, 'favorites', _defineProperty({}, newChannel, JSON.parse(window.sessionStorage.getItem(newChannel)))));
       });
     }
   }, {
@@ -11506,7 +11506,7 @@ var List = function (_React$Component) {
 
       isFavorited ? this.props.removeFavorite() : this.props.addFavorite();
       favoriteIds[postId] = !favoriteIds[postId];
-      window.localStorage.setItem(channel, JSON.stringify(favoriteIds));
+      window.sessionStorage.setItem(channel, JSON.stringify(favoriteIds));
       this.setState({ favorites: _defineProperty({}, channel, favoriteIds) });
     }
   }, {
@@ -26410,7 +26410,7 @@ var Wrapper = function (_React$Component) {
   }, {
     key: 'setFavorite',
     value: function setFavorite(channel) {
-      var favorites = JSON.parse(window.localStorage.getItem(channel));
+      var favorites = JSON.parse(window.sessionStorage.getItem(channel));
       return !favorites ? 0 : Object.keys(favorites).filter(function (k) {
         return favorites[k];
       }).length;

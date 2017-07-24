@@ -16,8 +16,8 @@ class List extends React.Component {
 
   componentWillMount(){
     const channel = this.props.match.params.channel;
-    const channelFavorited = window.localStorage.getItem(channel) === "undefined" ?
-      {} : JSON.parse(window.localStorage.getItem(channel));
+    const channelFavorited = window.sessionStorage.getItem(channel) === "undefined" ?
+      {} : JSON.parse(window.sessionStorage.getItem(channel));
     this.setState({
       favorites: { [channel]: channelFavorited }
     });
@@ -41,7 +41,7 @@ class List extends React.Component {
       this.setState({
         json,
         favorites: { [oldChannel]: null },
-        favorites: { [newChannel]: JSON.parse(window.localStorage.getItem(newChannel)) }
+        favorites: { [newChannel]: JSON.parse(window.sessionStorage.getItem(newChannel)) }
       });
     });
   }
@@ -54,7 +54,7 @@ class List extends React.Component {
 
     isFavorited ? this.props.removeFavorite() : this.props.addFavorite();
     favoriteIds[postId] = !favoriteIds[postId];
-    window.localStorage.setItem(channel, JSON.stringify(favoriteIds));
+    window.sessionStorage.setItem(channel, JSON.stringify(favoriteIds));
     this.setState({favorites: {[channel]: favoriteIds}});
   }
 

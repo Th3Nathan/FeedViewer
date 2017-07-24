@@ -25,7 +25,7 @@ class Wrapper extends React.Component {
   }
 
   setFavorite(channel){
-    const favorites = JSON.parse(window.localStorage.getItem(channel))
+    const favorites = JSON.parse(window.sessionStorage.getItem(channel))
     return !favorites ? 0 : Object.keys(favorites).filter(k => favorites[k]).length;
   }
 
