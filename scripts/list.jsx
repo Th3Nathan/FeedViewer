@@ -45,7 +45,7 @@ class List extends React.Component {
       });
     });
   }
-  
+
   handleFavorite(postId){
     const { addFavorite, removeFavorite } = this.props;
     const channel = this.props.match.params.channel;
@@ -55,6 +55,7 @@ class List extends React.Component {
     isFavorited ? this.props.removeFavorite() : this.props.addFavorite();
     favoriteIds[postId] = !favoriteIds[postId];
     window.localStorage.setItem(channel, JSON.stringify(favoriteIds));
+    this.setState({favorites: {[channel]: favoriteIds}});
   }
 
 

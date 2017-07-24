@@ -11507,6 +11507,7 @@ var List = function (_React$Component) {
       isFavorited ? this.props.removeFavorite() : this.props.addFavorite();
       favoriteIds[postId] = !favoriteIds[postId];
       window.localStorage.setItem(channel, JSON.stringify(favoriteIds));
+      this.setState({ favorites: _defineProperty({}, channel, favoriteIds) });
     }
   }, {
     key: 'errorFound',
