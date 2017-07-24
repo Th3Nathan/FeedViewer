@@ -4,17 +4,18 @@ import { withRouter, Link } from 'react-router-dom';
 import { timeAgo } from './util';
 import PostFooter from './postFooter.jsx';
 
+
 class Post extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       hover: false,
-      favorited: false
     }
     this.onMouseOut = this.onMouseOut.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
     this.heartClick = this.heartClick.bind(this);
   }
+
 
   imageStyle(){
     //Fill container only if it almost fills it already
@@ -32,7 +33,7 @@ class Post extends React.Component {
   }
 
   heartStyle(){
-    if (this.state.favorited){
+    if (this.props.favorited){
       return {
         "transform": "translate(450px, 20px)",
         "color": "red"
@@ -48,7 +49,8 @@ class Post extends React.Component {
   }
 
   heartClick(e){
-    this.setState({favorited: !this.state.favorited})
+    this.props.handleFavorite(this.props.post.id);
+    // this.setState({favorited: !this.state.favorited})
   }
 
   badImage(){

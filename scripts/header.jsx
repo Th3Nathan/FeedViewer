@@ -6,7 +6,7 @@ class Header extends React.Component {
     super(props);
     this.state = {
       favoriteCount: 0,
-      channel: this.props.match.params.channel || "analog",
+      channel: this.props.match.params.channel,
       searchText: ""
     }
     this.updateSearch = this.updateSearch.bind(this);
