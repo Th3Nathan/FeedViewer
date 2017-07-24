@@ -23471,6 +23471,10 @@ var _list = __webpack_require__(228);
 
 var _list2 = _interopRequireDefault(_list);
 
+var _wrapper = __webpack_require__(235);
+
+var _wrapper2 = _interopRequireDefault(_wrapper);
+
 var _reactRouterDom = __webpack_require__(37);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -23502,8 +23506,7 @@ var App = function (_React$Component) {
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', render: function render() {
               return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/analog' });
             } }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/:channel', component: _header2.default }),
-          _react2.default.createElement(_reactRouterDom.Route, { path: '/:channel', component: _list2.default })
+          _react2.default.createElement(_reactRouterDom.Route, { path: '/:channel', component: _wrapper2.default })
         )
       );
     }
@@ -23550,13 +23553,11 @@ var Header = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
 
     _this.state = {
-      favoriteCount: 0,
       channel: _this.props.match.params.channel,
       searchText: ""
     };
     _this.updateSearch = _this.updateSearch.bind(_this);
     _this.handleSubmit = _this.handleSubmit.bind(_this);
-
     return _this;
   }
 
@@ -23613,7 +23614,7 @@ var Header = function (_React$Component) {
             'h2',
             { className: 'header-text' },
             'favorites (',
-            this.state.favoriteCount,
+            this.props.favoriteCount,
             ')'
           )
         ),
@@ -26020,9 +26021,20 @@ var List = function (_React$Component) {
   }, {
     key: 'handleFavorite',
     value: function handleFavorite(postId) {
+      var _props = this.props,
+          addFavorite = _props.addFavorite,
+          removeFavorite = _props.removeFavorite;
+
       var channel = this.props.match.params.channel;
       var favoriteIds = this.state.favorites[channel] || {};
-      favoriteIds[postId] = !favoriteIds[postId];
+      var isFavorited = favoriteIds[postId];
+      if (isFavorited) {
+        favoriteIds[postId] = !favoriteIds[postId];
+        this.props.removeFavorite();
+      } else {
+        favoriteIds[postId] = !favoriteIds[postId];
+        this.props.addFavorite();
+      }
 
       window.localStorage.setItem(channel, JSON.stringify(favoriteIds));
       console.log(JSON.parse(window.localStorage.getItem(channel)));
@@ -26063,10 +26075,18 @@ var List = function (_React$Component) {
       var jsonPosts = this.state.json.data.children;
       var channel = this.props.match.params.channel;
       var favoritedIds = this.state.favorites[channel];
+      var onFavorites = this.props.location.pathname.slice(-10) === "/favorites";
+
       return Object.keys(jsonPosts).map(function (i) {
         var post = jsonPosts[i].data;
         var favorited = !!favoritedIds && favoritedIds[post.id];
-        return _react2.default.createElement(_post2.default, { post: post, key: i, favorited: favorited, handleFavorite: _this4.handleFavorite });
+        if (onFavorites && !favorited) return null;
+        return _react2.default.createElement(_post2.default, {
+          post: post,
+          key: i,
+          favorited: favorited,
+          handleFavorite: _this4.handleFavorite
+        });
       });
     }
   }, {
@@ -26085,7 +26105,7 @@ var List = function (_React$Component) {
   return List;
 }(_react2.default.Component);
 
-exports.default = List;
+exports.default = (0, _reactRouterDom.withRouter)(List);
 
 /***/ }),
 /* 229 */
@@ -26287,6 +26307,108 @@ var PostFooter = function PostFooter(_ref) {
 };
 
 exports.default = PostFooter;
+
+/***/ }),
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _header = __webpack_require__(200);
+
+var _header2 = _interopRequireDefault(_header);
+
+var _list = __webpack_require__(228);
+
+var _list2 = _interopRequireDefault(_list);
+
+var _reactRouterDom = __webpack_require__(37);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Wrapper = function (_React$Component) {
+  _inherits(Wrapper, _React$Component);
+
+  function Wrapper(props) {
+    _classCallCheck(this, Wrapper);
+
+    var _this = _possibleConstructorReturn(this, (Wrapper.__proto__ || Object.getPrototypeOf(Wrapper)).call(this, props));
+
+    var channel = _this.props.match.params.channel;
+    _this.addFavorite = _this.addFavorite.bind(_this);
+    _this.removeFavorite = _this.removeFavorite.bind(_this);
+    _this.state = { favoriteCount: _this.setFavorite(channel) };
+    return _this;
+  }
+
+  _createClass(Wrapper, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      var newChannel = newProps.match.params.channel;
+      this.setState({
+        favoriteCount: this.setFavorite(newChannel)
+      });
+    }
+  }, {
+    key: 'addFavorite',
+    value: function addFavorite() {
+      this.setState({ favoriteCount: this.state.favoriteCount + 1 });
+    }
+  }, {
+    key: 'setFavorite',
+    value: function setFavorite(channel) {
+      var favorites = JSON.parse(window.localStorage.getItem(channel));
+      return !favorites ? 0 : Object.keys(favorites).filter(function (k) {
+        return favorites[k];
+      }).length;
+    }
+  }, {
+    key: 'removeFavorite',
+    value: function removeFavorite() {
+      this.setState({ favoriteCount: this.state.favoriteCount - 1 });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_header2.default, {
+          favoriteCount: this.state.favoriteCount
+        }),
+        _react2.default.createElement(_list2.default, {
+          addFavorite: this.addFavorite,
+          removeFavorite: this.removeFavorite
+        })
+      );
+    }
+  }]);
+
+  return Wrapper;
+}(_react2.default.Component);
+
+exports.default = Wrapper;
 
 /***/ })
 /******/ ]);

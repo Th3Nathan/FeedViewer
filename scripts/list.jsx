@@ -25,9 +25,17 @@ class List extends React.Component {
   }
 
   handleFavorite(postId){
+    const { addFavorite, removeFavorite } = this.props;
     let channel = this.props.match.params.channel;
     let favoriteIds = this.state.favorites[channel] || {};
-    favoriteIds[postId] = !favoriteIds[postId];
+    const isFavorited = favoriteIds[postId];
+    if (isFavorited){
+      favoriteIds[postId] = !favoriteIds[postId];
+      this.props.removeFavorite();
+    } else {
+      favoriteIds[postId] = !favoriteIds[postId];
+      this.props.addFavorite();
+    }
 
     window.localStorage.setItem(channel, JSON.stringify(favoriteIds));
     console.log(JSON.parse(window.localStorage.getItem(channel)))
@@ -59,11 +67,19 @@ class List extends React.Component {
     const jsonPosts = this.state.json.data.children;
     let channel = this.props.match.params.channel;
     let favoritedIds = this.state.favorites[channel];
+    const onFavorites = this.props.location.pathname.slice(-10) === "/favorites";
+
     return Object.keys(jsonPosts).map(i => {
       let post = jsonPosts[i].data;
       let favorited = !!favoritedIds && favoritedIds[post.id]
+      if (onFavorites && !favorited) return null;
       return (
-        <Post post={post} key={i} favorited={favorited} handleFavorite={ this.handleFavorite } />
+        <Post
+          post={post}
+          key={i}
+          favorited={favorited}
+          handleFavorite={ this.handleFavorite }
+        />
       );
     });
   }
@@ -79,4 +95,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default withRouter(List);

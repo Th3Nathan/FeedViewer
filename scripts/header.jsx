@@ -5,13 +5,11 @@ class Header extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      favoriteCount: 0,
       channel: this.props.match.params.channel,
-      searchText: ""
+      searchText: "",
     }
     this.updateSearch = this.updateSearch.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
   }
 
   updateSearch(e){
@@ -49,7 +47,7 @@ class Header extends React.Component {
         </Link>
         <Link to={`/${this.state.channel}/favorites`} className={`header-favorites ${favoritesClass}`}>
           <i className="fa fa-heart" aria-hidden="true"></i>
-          <h2 className="header-text">favorites ({this.state.favoriteCount})</h2>
+          <h2 className="header-text">favorites ({this.props.favoriteCount})</h2>
         </Link>
         <form className="search-bar" onSubmit={this.handleSubmit}>
           <label htmlFor="search">
