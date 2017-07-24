@@ -35,16 +35,16 @@ class Post extends React.Component {
   heartStyle(){
     if (this.props.favorited){
       return {
-        "transform": "translate(450px, 20px)",
-        "color": "red"
+        "transform": "translate(450px, 15px)",
+        "color": "#FF3650"
       }
     }
     else if (this.state.hover){
       return {
-        "transform": "translate(20px, 20px)"
+        "transform": "translate(15px, 15px)"
       };
     } else return {
-      "transform": "translate(-20px, -20px)"
+      "transform": "translate(-15px, -15px)"
     }
   }
 

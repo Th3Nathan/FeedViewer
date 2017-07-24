@@ -25983,6 +25983,10 @@ var _post = __webpack_require__(229);
 
 var _post2 = _interopRequireDefault(_post);
 
+var _error = __webpack_require__(236);
+
+var _error2 = _interopRequireDefault(_error);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -26068,6 +26072,13 @@ var List = function (_React$Component) {
       });
     }
   }, {
+    key: 'errorFound',
+    value: function errorFound() {
+      return !this.state.json.data || this.posts().every(function (el) {
+        return el === null;
+      });
+    }
+  }, {
     key: 'posts',
     value: function posts() {
       var _this4 = this;
@@ -26077,7 +26088,7 @@ var List = function (_React$Component) {
       var favoritedIds = this.state.favorites[channel];
       var onFavorites = this.props.location.pathname.slice(-10) === "/favorites";
 
-      return Object.keys(jsonPosts).map(function (i) {
+      var posts = Object.keys(jsonPosts).map(function (i) {
         var post = jsonPosts[i].data;
         var favorited = !!favoritedIds && favoritedIds[post.id];
         if (onFavorites && !favorited) return null;
@@ -26088,11 +26099,12 @@ var List = function (_React$Component) {
           handleFavorite: _this4.handleFavorite
         });
       });
+      return posts;
     }
   }, {
     key: 'render',
     value: function render() {
-      if (!this.state.json.data) return null;
+      if (this.errorFound()) return _react2.default.createElement(_error2.default, null);
       var posts = this.posts();
       return _react2.default.createElement(
         'div',
@@ -26176,15 +26188,15 @@ var Post = function (_React$Component) {
     value: function heartStyle() {
       if (this.props.favorited) {
         return {
-          "transform": "translate(450px, 20px)",
-          "color": "red"
+          "transform": "translate(450px, 15px)",
+          "color": "#FF3650"
         };
       } else if (this.state.hover) {
         return {
-          "transform": "translate(20px, 20px)"
+          "transform": "translate(15px, 15px)"
         };
       } else return {
-        "transform": "translate(-20px, -20px)"
+        "transform": "translate(-15px, -15px)"
       };
     }
   }, {
@@ -26409,6 +26421,37 @@ var Wrapper = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Wrapper;
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(6);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Error = function Error() {
+  return _react2.default.createElement(
+    "div",
+    { className: "error" },
+    _react2.default.createElement(
+      "h2",
+      { className: "error-message" },
+      "There are no posts to display"
+    )
+  );
+};
+
+exports.default = Error;
 
 /***/ })
 /******/ ]);

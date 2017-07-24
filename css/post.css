@@ -60,7 +60,8 @@ h1 {
 
 .heart {
   position: absolute;
-  color: blue;
+  color: white;
+  font-size: 20px;
   transition-property: all;
   transition-duration: 0.5s;
 

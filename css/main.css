@@ -8,3 +8,15 @@ body {
   padding: 0px;
   margin: 0px;
 }
+
+.error {
+  margin-top: 50px;
+  font-family: Helvetica sans-serif;
+  text-align: center;
+  background: #eeda1c;
+}
+
+.error-message {
+  height: 40px;
+  padding-top: 10px;
+}
