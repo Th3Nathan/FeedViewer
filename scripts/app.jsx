@@ -3,7 +3,7 @@ import React from 'react';
 import Header from './header';
 import List from './list'
 import Wrapper from './wrapper';
-import { withRouter, HashRouter, Route, Redirect } from 'react-router-dom';
+import { HashRouter, Route, Redirect } from 'react-router-dom';
 
 class App extends React.Component {
   render(){

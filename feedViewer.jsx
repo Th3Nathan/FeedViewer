@@ -5,5 +5,5 @@ import App from './scripts/app';
 
 document.addEventListener('DOMContentLoaded', () => {
   const root = document.getElementById('root');
-  ReactDOM.render(<App window={window} />, root);
+  ReactDOM.render(<App />, root);
 });

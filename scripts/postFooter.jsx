@@ -3,7 +3,7 @@
 import React from 'react';
 import { timeAgo } from './util';
 
-const PostFooter = ( {post, hover} ) => {
+const PostFooter = ({ post, hover }) => {
   const textStyle = {
     "color": hover ? "#999": "#777"
   };

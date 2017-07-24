@@ -58,11 +58,37 @@ h1 {
   padding: 7px;
 }
 
-.heart {
+.icon {
   position: absolute;
   color: white;
   font-size: 20px;
-  transition-property: all;
-  transition-duration: 0.5s;
+}
 
+.cover-image {
+  object-fit: cover;
+  width: inherit;
+}
+
+.contain-image {
+  object-fit: contain;
+  width: 100%;
+}
+
+.favorite-selected {
+  transform: translate(450px, 15px);
+  color: #FF3650;
+  transition-property: all;
+  transition-duration: 0.3s;
+}
+
+.favorite-hover {
+  transform: translate(15px, 15px);
+  transition-property: all;
+  transition-duration: 0.3s;
+}
+
+.favorite-unhover {
+  transform: translate(-15px, -15px);
+  transition-property: all;
+  transition-duration: 0.3s;
 }

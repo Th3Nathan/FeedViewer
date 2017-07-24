@@ -40,4 +40,5 @@ input:focus {
 .selected {
   background: #57a2e4;
   color: white;
+  transition: all .5s;
 }

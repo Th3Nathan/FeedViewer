@@ -1,7 +1,6 @@
 
 import React from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { timeAgo } from './util.js';
+import { withRouter } from 'react-router-dom';
 import Post from './post';
 import Error from './error';
 
@@ -20,32 +19,14 @@ class List extends React.Component {
     const channelFavorited = window.localStorage.getItem(channel) === "undefined" ?
       {} : JSON.parse(window.localStorage.getItem(channel));
     this.setState({
-      favorites: { [channel]: channelFavorited}
+      favorites: { [channel]: channelFavorited }
     });
-  }
-
-  handleFavorite(postId){
-    const { addFavorite, removeFavorite } = this.props;
-    let channel = this.props.match.params.channel;
-    let favoriteIds = this.state.favorites[channel] || {};
-    const isFavorited = favoriteIds[postId];
-    if (isFavorited){
-      favoriteIds[postId] = !favoriteIds[postId];
-      this.props.removeFavorite();
-    } else {
-      favoriteIds[postId] = !favoriteIds[postId];
-      this.props.addFavorite();
-    }
-
-    window.localStorage.setItem(channel, JSON.stringify(favoriteIds));
-    console.log(JSON.parse(window.localStorage.getItem(channel)))
-    this.setState({ favorites: {[channel]: favoriteIds} });
   }
 
   componentDidMount(){
     fetch(`https://www.reddit.com/r/${this.props.match.params.channel}/top/.json`)
-      .then(response => response.json())
-        .then(json => {
+    .then(response => response.json())
+    .then(json => {
       this.setState({ json });
     });
   }
@@ -55,13 +36,27 @@ class List extends React.Component {
     const oldChannel = this.props.match.params.channel;
     if (oldChannel === newChannel) return null;
     fetch(`https://www.reddit.com/r/${newChannel}/top/.json`)
-      .then(response => response.json())
-        .then(json => {
-      this.setState({ json });
-      this.setState({ favorites: {[oldChannel]: null}});
-      this.setState({ favorites: {[newChannel]: JSON.parse(window.localStorage.getItem(newChannel))}});
+    .then(response => response.json())
+    .then(json => {
+      this.setState({
+        json,
+        favorites: { [oldChannel]: null },
+        favorites: { [newChannel]: JSON.parse(window.localStorage.getItem(newChannel)) }
+      });
     });
   }
+  
+  handleFavorite(postId){
+    const { addFavorite, removeFavorite } = this.props;
+    const channel = this.props.match.params.channel;
+    let favoriteIds = this.state.favorites[channel] || {};
+    const isFavorited = favoriteIds[postId];
+
+    isFavorited ? this.props.removeFavorite() : this.props.addFavorite();
+    favoriteIds[postId] = !favoriteIds[postId];
+    window.localStorage.setItem(channel, JSON.stringify(favoriteIds));
+  }
+
 
   errorFound(){
     return !this.state.json.data || this.posts().every(el => el === null);
@@ -79,9 +74,10 @@ class List extends React.Component {
       if (onFavorites && !favorited) return null;
       return (
         <Post
-          post={post}
-          key={i}
-          favorited={favorited}
+          post={ post }
+          key={ i }
+          favorited={ favorited }
+          onFavorites={ onFavorites }
           handleFavorite={ this.handleFavorite }
         />
       );

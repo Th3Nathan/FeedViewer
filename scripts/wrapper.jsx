@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom';
 class Wrapper extends React.Component {
   constructor(props){
     super(props)
-    let channel = this.props.match.params.channel;
+    const channel = this.props.match.params.channel;
     this.addFavorite = this.addFavorite.bind(this);
     this.removeFavorite = this.removeFavorite.bind(this);
     this.state = { favoriteCount: this.setFavorite(channel) }
@@ -21,24 +21,22 @@ class Wrapper extends React.Component {
   }
 
   addFavorite(){
-    this.setState({favoriteCount: this.state.favoriteCount + 1});
+    this.setState({ favoriteCount: this.state.favoriteCount + 1 });
   }
 
   setFavorite(channel){
-    let favorites = JSON.parse(window.localStorage.getItem(channel))
+    const favorites = JSON.parse(window.localStorage.getItem(channel))
     return !favorites ? 0 : Object.keys(favorites).filter(k => favorites[k]).length;
   }
 
   removeFavorite(){
-    this.setState({favoriteCount: this.state.favoriteCount - 1});
+    this.setState({ favoriteCount: this.state.favoriteCount - 1 });
   }
 
   render(){
     return (
       <div>
-        <Header
-          favoriteCount={ this.state.favoriteCount }
-        />
+        <Header favoriteCount={ this.state.favoriteCount } />
         <List
           addFavorite={ this.addFavorite }
           removeFavorite={ this.removeFavorite }
