@@ -10,4 +10,4 @@
 
 
 ### Instructions ###
-  http://www.nathanvass.site/FeedViewer/#/analog
+  http://www.nathanvass.site/FeedViewer
