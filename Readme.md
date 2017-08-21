@@ -10,5 +10,4 @@
 
 
 ### Instructions ###
-  - git clone https://github.com/Th3Nathan/FeedViewer.git
-  - open index.html
+  http://www.nathanvass.site/FeedViewer/#/analog
