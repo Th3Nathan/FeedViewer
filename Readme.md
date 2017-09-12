@@ -1,5 +1,7 @@
 # Feed Viewer #
 
+![Alt text](/pic.jpg?raw=true "Image")
+
 ### Features ###
   - Search for subreddits
   - Favorites are persisted in session storage
