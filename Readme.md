@@ -1,6 +1,6 @@
 # Feed Viewer #
 
-![Alt text](/pic.jpg?raw=true "Image")
+![Alt text](https://user-images.githubusercontent.com/21062561/30307443-33ea2c70-974c-11e7-846b-4f038cbfe7e3.PNG "Image")
 
 ### Features ###
   - Search for subreddits
